@@ -9,6 +9,7 @@ var join         = require('path').join
 function MigrationTask(driver, opts){
   opts                  = (opts || {})
   this.driver           = driver;
+  this.orm              = opts.orm;
   this.dir              = (opts.dir || 'migrations');
   this.coffee           = (opts.coffee || false);
   this.migrate          = migrationDsl(driver, this);
@@ -96,7 +97,7 @@ var coffeeTemplate = [
  */
 
 function generate(name, extension, templateName) {
-  template = ((extension === "js") ? jsTemplate : coffeeTemplate);
+  var template = ((extension === "js") ? jsTemplate : coffeeTemplate);
   var path = name + '.' + extension;
   log('create', join(this.process.cwd(), path));
   fs.writeFileSync(path, template);
